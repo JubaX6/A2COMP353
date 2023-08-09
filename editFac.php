@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 // Check if the facilityID is provided
 if (isset($_GET["facilityID"])) {
@@ -21,7 +21,7 @@ if (isset($_GET["facilityID"])) {
     exit();
 }
 
-// Handle form submission for updating facility information
+// Assign the information to the variables
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ministryID = $_POST["ministryID"];
     $facilityName = $_POST["facilityName"];
@@ -59,9 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edit Facility</title>
 </head>
 
@@ -73,8 +71,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="ministryID" id="ministryID" value="<?= $facility["ministryID"] ?>"><br>
         <label for="facilityName">Facility Name</label><br>
         <input type="text" name="facilityName" id="facilityName" value="<?= $facility["facilityName"] ?>"><br>
-        <!-- Other input fields for facility information -->
-        <!-- ... -->
+        <label for="address">Address</label><br>
+        <input type="text" name="address" id="address" value="<?= $facility["address"] ?>"><br>
+        <label for="city">City</label><br>
+        <input type="text" name="city" id="city" value="<?= $facility["city"] ?>"><br>
+        <label for="province">Province</label><br>
+        <input type="text" name="province" id="province" value="<?= $facility["province"] ?>"><br>
+        <label for="capacity">Capacity</label><br>
+        <input type="text" name="capacity" id="capacity" value="<?= $facility["capacity"] ?>"><br>
+        <label for="webAddress">Web Address</label><br>
+        <input type="text" name="webAddress" id="webAddress" value="<?= $facility["webAddress"] ?>"><br>
+        <label for="phoneNumber">Phone Number</label><br>
+        <input type="text" name="phoneNumber" id="phoneNumber" value="<?= $facility["phoneNumber"] ?>"><br>
+        <label for="postalCode">Postal Code</label><br>
+        <input type="text" name="postalCode" id="postalCode" value="<?= $facility["postalCode"] ?>"><br>
 
         <button type="submit">Save Changes</button>
     </form>

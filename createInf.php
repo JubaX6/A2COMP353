@@ -1,9 +1,10 @@
 <?php
 if (
+    //Ensure that all fields are full
     isset($_POST["medicareID"]) && isset($_POST["dateOfInfection"]) && isset($_POST["typeOfInfection"])
 )
 {
-    // Insert data into the database
+    // Insert data into table Infections
 
     $stmt = $conn->prepare("INSERT INTO Infections (medicareID, dateOfInfection, typeOfInfection) VALUES (:medicareID, :dateOfInfection, :typeOfInfection)");
 

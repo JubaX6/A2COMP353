@@ -1,16 +1,17 @@
 <?php 
-//require_once '../database.php';
+//require_once 'database.php';
 
  if (
-    isset($_POST["medID"]) && isset($_POST["medExpDate"]) && isset($_POST["phoneNumber"])
+    //Ensure that all fields are full
+    isset($_POST["medicareID"]) && isset($_POST["medExpDate"]) && isset($_POST["phoneNumber"])
     && isset($_POST["city"]) && isset($_POST["province"]) && isset($_POST["firstName"])
     && isset($_POST["lastName"]) && isset($_POST["birthDate"]) && isset($_POST["email"])
     && isset($_POST["citizenship"]) && isset($_POST["postalCode"]) && isset($_POST["currentLevel"])
 )try {
     // Insert into People table
-    $stmtPeople = $conn->prepare("INSERT INTO People (medID, medExpDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode) VALUES (:medID, :medExpDate, :phoneNumber, :city, :province, :firstName, :lastName, :birthDate, :email, :citizenship, :postalCode)");
+    $stmtPeople = $conn->prepare("INSERT INTO People (medicareID, medExpDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode) VALUES (:medicareID, :medExpDate, :phoneNumber, :city, :province, :firstName, :lastName, :birthDate, :email, :citizenship, :postalCode)");
 
-    $stmtPeople->bindParam(':medID', $_POST["medID"]);
+    $stmtPeople->bindParam(':medicareID', $_POST["medicareID"]);
     $stmtPeople->bindParam(':medExpDate', $_POST["medExpDate"]);
     $stmtPeople->bindParam(':phoneNumber', $_POST["phoneNumber"]);
     $stmtPeople->bindParam(':city', $_POST["city"]);
@@ -26,10 +27,10 @@
 
     // Insert into Student table
     if ($peopleInserted) {
-        $stmtStudent = $conn->prepare("INSERT INTO Student (currentLevel, medID, facultyID) VALUES (:currentLevel, :medID, :facultyID)");
+        $stmtStudent = $conn->prepare("INSERT INTO Student (currentLevel, medicareID, facultyID) VALUES (:currentLevel, :medicareID, :facultyID)");
 
         $stmtStudent->bindParam(':currentLevel', $_POST["currentLevel"]);
-        $stmtStudent->bindParam(':medID', $_POST["medID"]);
+        $stmtStudent->bindParam(':medicareID', $_POST["medicareID"]);
        
 
         if ($stmtStudent->execute()) {
@@ -49,9 +50,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>createStudent</title>
 </head>
 
@@ -64,10 +63,11 @@
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
     <h1>Create a Student</h1>
     <form action="./createStud.php" method="post">
-        <label for="medID">medicareID</label><br>
-        <input type='text' name="medID" id="medID"> <br>
+        <label for="medicareID">medicareID</label><br>
+        <input type='text' name="medicareID" id="medicareID"> <br>
         <label for="medExpDate">Medicare Expiry Date</label><br>
         <input type='date' name="medExpDate" id="medExpDate"> <br>
         <label for="phoneNumber">Phone</label><br>

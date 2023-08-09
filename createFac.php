@@ -1,14 +1,15 @@
 <?php
 if (
+    //Make sure that every field is full
     isset($_POST["facilityID"]) && isset($_POST["ministryID"]) && isset($_POST["facilityName"])
     && isset($_POST["address"]) && isset($_POST["city"]) && isset($_POST["province"])
     && isset($_POST["capacity"]) && isset($_POST["webAddress"]) && isset($_POST["phoneNumber"])
     && isset($_POST["postalCode"])
 )
 {
-    // Insert data into the database
+    // Insert into Facilities table
 
-    $stmt = $conn->prepare("INSERT INTO your_table_name (facilityID, ministryID, facilityName, address, city, province, capacity, webAddress, phoneNumber, postalCode) VALUES (:facilityID, :ministryID, :facilityName, :address, :city, :province, :capacity, :webAddress, :phoneNumber, :postalCode)");
+    $stmt = $conn->prepare("INSERT INTO Facilities (facilityID, ministryID, facilityName, address, city, province, capacity, webAddress, phoneNumber, postalCode) VALUES (:facilityID, :ministryID, :facilityName, :address, :city, :province, :capacity, :webAddress, :phoneNumber, :postalCode)");
 
     $stmt->bindParam(':facilityID', $_POST["facilityID"]);
     $stmt->bindParam(':ministryID', $_POST["ministryID"]);
@@ -39,6 +40,7 @@ if (
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
     <h1>Create a Facility</h1>
     <form action="./createFac.php" method="post">
         <label for="facilityID">Facility ID</label><br>

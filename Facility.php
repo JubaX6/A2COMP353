@@ -9,12 +9,13 @@ echo'<!DOCTYPE html>
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
 </head>
 <body>
 <h1>Facility</h1>
 
-<a href="Facility/create.php"><button>Create Facility</button></a>
-<a href="Facility/display.php"><button>Display Facilities</button></a>
+<a href="createFac.php"><button>Create Facility</button></a>
+<a href="displayFac.php"><button>Display Facilities</button></a>
 
 </body>
 

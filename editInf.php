@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 // Check if the required parameters are provided
 if (isset($_GET["medicareID"]) && isset($_GET["dateOfInfection"])) {
@@ -23,7 +23,7 @@ if (isset($_GET["medicareID"]) && isset($_GET["dateOfInfection"])) {
     exit();
 }
 
-// Handle form submission for updating infection information
+// Assign the newType of infection to a variable
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newTypeOfInfection = $_POST["typeOfInfection"];
     
@@ -43,9 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edit Infection</title>
 </head>
 

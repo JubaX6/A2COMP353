@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 $statement = $conn->prepare('SELECT scheduleID, facilityID, employeeID, date, startTime, endTime FROM Schedule;');
 $statement->execute();
@@ -9,9 +9,7 @@ $statement->execute();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>All Schedules</title>
 </head>
 
@@ -28,6 +26,7 @@ $statement->execute();
                 <td>Start Time</td>
                 <td>End Time</td>
                 <td>Edit</td>
+                <td>Delete</td>
             </tr>
         </thead>
         <tbody>
@@ -40,12 +39,13 @@ $statement->execute();
                     <td><?= $row["startTime"] ?></td>
                     <td><?= $row["endTime"] ?></td>
                     <td><a href="./editSched.php?scheduleID=<?= $row["scheduleID"] ?>">Edit</a></td>
+                    <td><a href="./deleteSched.php?scheduleID=<?= $row["scheduleID"] ?>">Delete</a></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 
-    <a href="../">Back to homepage</a>
+    <a href="Employee.php">Back to homepage</a>
 </body>
 
 </html>

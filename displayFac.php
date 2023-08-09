@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 $statement = $conn->prepare('SELECT facilityID, facilityName, address, city, province, capacity, webAddress, phoneNumber, postalCode FROM Facilities;');
 $statement->execute();
@@ -9,9 +9,7 @@ $statement->execute();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>All Facilities</title>
 </head>
 
@@ -21,6 +19,7 @@ $statement->execute();
     <table>
         <thead>
             <tr>
+                <td>Facility ID</td>
                 <td>Facility Name</td>
                 <td>Address</td>
                 <td>City</td>
@@ -29,12 +28,14 @@ $statement->execute();
                 <td>Web Address</td>
                 <td>Phone Number</td>
                 <td>Postal Code</td>
-                <td>Edit</td> <!-- Add Edit column header -->
+                <td>Edit</td>
+                <td>Delete</td> 
             </tr>
         </thead>
         <tbody>
             <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                 <tr>
+                    <td><?= $row["facilityID"] ?></td>
                     <td><?= $row["facilityName"] ?></td>
                     <td><?= $row["address"] ?></td>
                     <td><?= $row["city"] ?></td>
@@ -43,13 +44,15 @@ $statement->execute();
                     <td><?= $row["webAddress"] ?></td>
                     <td><?= $row["phoneNumber"] ?></td>
                     <td><?= $row["postalCode"] ?></td>
-                    <td><a href="./editFac.php?facilityID=<?= $row["facilityID"] ?>">Edit</a></td> <!-- Edit button -->
+                    <td><a href="./editFac.php?facilityID=<?= $row["facilityID"] ?>">Edit</a></td> 
+                    <td><a href="./deleteFac.php?facilityID=<?= urlencode($row["facilityID"]) ?>">Delete</a></td>
+
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 
-    <a href="../">Back to homepage</a>
+    <a href="Facility.php">Back to homepage</a>
 </body>
 
 </html>

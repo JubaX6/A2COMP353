@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 $statement = $conn->prepare('SELECT medicareID, vaccinationDate, vaccinationType, doseNumber FROM Vaccines;');
 $statement->execute();
@@ -9,9 +9,7 @@ $statement->execute();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>All Vaccines</title>
 </head>
 
@@ -25,7 +23,8 @@ $statement->execute();
                 <td>Vaccination Date</td>
                 <td>Vaccination Type</td>
                 <td>Dose Number</td>
-                <td>Edit</td> <!-- Add a new column for the Edit button -->
+                <td>Edit</td>
+                <td>Delete</td>
             </tr>
         </thead>
         <tbody>
@@ -35,13 +34,15 @@ $statement->execute();
                     <td><?= $row["vaccinationDate"] ?></td>
                     <td><?= $row["vaccinationType"] ?></td>
                     <td><?= $row["doseNumber"] ?></td>
-                    <td><a href="editVacc.php?medicareID=<?= $row['medicareID'] ?>">Edit</a></td> <!-- Add Edit button with medicareID parameter -->
+                    <td><a href="editVacc.php?medicareID=<?= urlencode($row['medicareID']) ?>&vaccinationDate=<?= urlencode($row['vaccinationDate']) ?>&vaccinationType=<?= urlencode($row['vaccinationType']) ?>&doseNumber=<?= urlencode($row['doseNumber']) ?>">Edit</a></td>
+                    <td><a href="deleteVacc.php?medicareID=<?= urlencode($row['medicareID']) ?>&vaccinationDate=<?= urlencode($row['vaccinationDate']) ?>&vaccinationType=<?= urlencode($row['vaccinationType']) ?>&doseNumber=<?= urlencode($row['doseNumber']) ?>">Delete</a></td>
+
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 
-    <a href="../">Back to homepage</a>
+    <a href="Vaccination.php">Back to homepage</a>
 </body>
 
 </html>

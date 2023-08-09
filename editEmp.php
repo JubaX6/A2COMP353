@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 // Check if the medicareID is provided
 if (isset($_GET["medicareID"])) {
@@ -24,7 +24,7 @@ if (isset($_GET["medicareID"])) {
     exit();
 }
 
-// Handle form submission for updating employee and people information
+// Assigns the values to variables
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $position = $_POST["position"];
     $medicareExpiryDate = $_POST["medicareExpiryDate"];
@@ -73,9 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edit Employee</title>
 </head>
 

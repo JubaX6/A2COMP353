@@ -8,11 +8,12 @@ echo'<!DOCTYPE html>
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
     <h1>Vaccination</h1>
 
     <body>
-    <a href="Vaccination/create.php"><button>Display Facilities</button></a>
-    <a href="Vaccination/display.php"><button>Display Facilities</button></a>
+    <a href="createVacc.php"><button>Create Vaccination</button></a>
+    <a href="displayVacc.php"><button>Display Vaccinations</button></a>
     </body>
 
 </html>';

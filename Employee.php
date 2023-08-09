@@ -7,11 +7,12 @@ echo'<!DOCTYPE html>
     <th><a href="Facility.php"><button >Facility</button></a></th>
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
-    <th><a href="Registration.php"><button >Registration</button></a></th><h1>Employee</h1>
+    <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th><h1>Employee</h1>
 
 <body>
-<a href="createEmp.php"><button>Create Facility</button></a>
-<a href="displayEmp.php"><button>Display Facilities</button></a>
+<a href="createEmp.php"><button>Create Employee</button></a>
+<a href="displayEmp.php"><button>Display Employee</button></a>
 <a href="schedule.php"><button>Show Schedule</button></a>
 </body>
 

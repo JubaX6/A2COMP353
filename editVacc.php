@@ -1,13 +1,17 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
-// Check if the medicareID is provided
-if (isset($_GET["medicareID"])) {
+// Check if the necessary parameters are provided
+if (isset($_GET["vaccineID"]) && isset($_GET["medicareID"]) && isset($_GET["vaccinationDate"]) && isset($_GET["vaccinationType"]) && isset($_GET["doseNumber"])) {
+    $vaccineID = $_GET["vaccineID"];
     $medicareID = $_GET["medicareID"];
+    $vaccinationDate = $_GET["vaccinationDate"];
+    $vaccinationType = $_GET["vaccinationType"];
+    $doseNumber = $_GET["doseNumber"];
 
-    // Fetch vaccine information for the provided medicareID
-    $statement = $conn->prepare('SELECT medicareID, vaccinationDate, vaccinationType, doseNumber FROM Vaccines WHERE medicareID = :medicareID;');
-    $statement->bindParam(':medicareID', $medicareID);
+    // Fetch vaccine information for the provided vaccineID
+    $statement = $conn->prepare('SELECT vaccineID, medicareID, vaccinationDate, vaccinationType, doseNumber FROM Vaccines WHERE vaccineID = :vaccineID;');
+    $statement->bindParam(':vaccineID', $vaccineID);
     $statement->execute();
     
     $vaccine = $statement->fetch(PDO::FETCH_ASSOC);
@@ -17,27 +21,27 @@ if (isset($_GET["medicareID"])) {
         exit();
     }
 } else {
-    echo "Medicare ID not provided.";
+    echo "Vaccine information not provided.";
     exit();
 }
 
-// Handle form submission for updating vaccine information
+// Assign data to variables
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $vaccinationDate = $_POST["vaccinationDate"];
-    $vaccinationType = $_POST["vaccinationType"];
-    $doseNumber = $_POST["doseNumber"];
+    $newVaccinationDate = $_POST["vaccinationDate"];
+    $newVaccinationType = $_POST["vaccinationType"];
+    $newDoseNumber = $_POST["doseNumber"];
     
     // Update vaccine information
     $updateStatement = $conn->prepare('UPDATE Vaccines 
                                        SET vaccinationDate = :vaccinationDate, vaccinationType = :vaccinationType, doseNumber = :doseNumber 
-                                       WHERE medicareID = :medicareID;');
-    $updateStatement->bindParam(':vaccinationDate', $vaccinationDate);
-    $updateStatement->bindParam(':vaccinationType', $vaccinationType);
-    $updateStatement->bindParam(':doseNumber', $doseNumber);
-    $updateStatement->bindParam(':medicareID', $medicareID);
+                                       WHERE vaccineID = :vaccineID;');
+    $updateStatement->bindParam(':vaccinationDate', $newVaccinationDate);
+    $updateStatement->bindParam(':vaccinationType', $newVaccinationType);
+    $updateStatement->bindParam(':doseNumber', $newDoseNumber);
+    $updateStatement->bindParam(':vaccineID', $vaccineID);
     $updateStatement->execute();
     
-    header("Location: ./displayVaccines.php");
+    header("Location: ./displayVacc.php");
 }
 
 ?>
@@ -46,16 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edit Vaccine</title>
 </head>
 
 <body>
     <h1>Edit Vaccine</h1>
 
-    <form action="./editVacc.php?medicareID=<?= $medicareID ?>" method="post">
+    <form action="./editVacc.php?vaccineID=<?= $vaccineID ?>&medicareID=<?= $medicareID ?>&vaccinationDate=<?= $vaccinationDate ?>&vaccinationType=<?= $vaccinationType ?>&doseNumber=<?= $doseNumber ?>" method="post">
         <label for="vaccinationDate">Vaccination Date</label><br>
         <input type="date" name="vaccinationDate" id="vaccinationDate" value="<?= $vaccine["vaccinationDate"] ?>"><br>
         <label for="vaccinationType">Vaccination Type</label><br>

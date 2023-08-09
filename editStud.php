@@ -1,13 +1,13 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
-// Check if the medID is provided
-if (isset($_GET["medID"])) {
-    $medID = $_GET["medID"];
+// Check if the medicareID is provided
+if (isset($_GET["medicareID"])) {
+    $medicareID = $_GET["medicareID"];
 
-    // Fetch student information for the provided medID
-    $statement = $conn->prepare('SELECT medID, medExpDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode, currentLevel FROM Student WHERE medID = :medID;');
-    $statement->bindParam(':medID', $medID);
+    // Fetch student information for the provided medicareID
+    $statement = $conn->prepare('SELECT medicareID, medicareExpiryDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode, currentLevel FROM Students WHERE medicareID = :medicareID;');
+    $statement->bindParam(':medicareID', $medicareID);
     $statement->execute();
     
     $student = $statement->fetch(PDO::FETCH_ASSOC);
@@ -17,13 +17,13 @@ if (isset($_GET["medID"])) {
         exit();
     }
 } else {
-    echo "MedID not provided.";
+    echo "MedicareID not provided.";
     exit();
 }
 
-// Handle form submission for updating student information
+// Assign information to variables
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $medExpDate = $_POST["medExpDate"];
+    $medExpDate = $_POST["medicareExpiryDate"];
     $phoneNumber = $_POST["phoneNumber"];
     $city = $_POST["city"];
     $province = $_POST["province"];
@@ -37,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Update student information
     $updateStatement = $conn->prepare('UPDATE Student 
-                                       SET medExpDate = :medExpDate, phoneNumber = :phoneNumber, city = :city, province = :province, 
+                                       SET medicareExpiryDate = :medicareExpiryDate, phoneNumber = :phoneNumber, city = :city, province = :province, 
                                            firstName = :firstName, lastName = :lastName, birthDate = :birthDate, email = :email, 
                                            citizenship = :citizenship, postalCode = :postalCode, currentLevel = :currentLevel 
-                                       WHERE medID = :medID;');
-    $updateStatement->bindParam(':medExpDate', $medExpDate);
+                                       WHERE medicareID = :medicareID;');
+    $updateStatement->bindParam(':medicareExpiryDate', $medicareExpiryDate);
     $updateStatement->bindParam(':phoneNumber', $phoneNumber);
     $updateStatement->bindParam(':city', $city);
     $updateStatement->bindParam(':province', $province);
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $updateStatement->bindParam(':citizenship', $citizenship);
     $updateStatement->bindParam(':postalCode', $postalCode);
     $updateStatement->bindParam(':currentLevel', $currentLevel);
-    $updateStatement->bindParam(':medID', $medID);
+    $updateStatement->bindParam(':medicareID', $medicareID);
     $updateStatement->execute();
     
     header("Location: ./displayStud.php");
@@ -64,18 +64,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Edit Student</title>
 </head>
 
 <body>
     <h1>Edit Student</h1>
 
-    <form action="./editStudent.php?medID=<?= $medID ?>" method="post">
-        <label for="medExpDate">Medicare Expiry Date</label><br>
-        <input type="date" name="medExpDate" id="medExpDate" value="<?= $student["medExpDate"] ?>"><br>
+    <form action="./editStudent.php?medicareID=<?= $medicareID ?>" method="post">
+        <label for="medicareExpiryDate">Medicare Expiry Date</label><br>
+        <input type="date" name="medicareExpiryDate" id="medicareExpiryDate" value="<?= $student["medicareExpiryDate"] ?>"><br>
         <label for="phoneNumber">Phone Number</label><br>
         <input type="text" name="phoneNumber" id="phoneNumber" value="<?= $student["phoneNumber"] ?>"><br>
         <label for="city">City</label><br>

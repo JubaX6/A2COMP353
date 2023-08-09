@@ -1,32 +1,49 @@
 <?php 
-//require_once '../database.php';
+require_once 'database.php';
 
+//If statement to ensure that all rows are filled before updating the db
  if (
-    isset($_POST["medID"]) && isset($_POST["medExpDate"]) && isset($_POST["phoneNumber"])
+
+    isset($_POST["medicareID"]) && isset($_POST["medicareExpiryDate"]) && isset($_POST["phoneNumber"])
     && isset($_POST["city"]) && isset($_POST["province"]) && isset($_POST["firstName"])
     && isset($_POST["lastName"]) && isset($_POST["birthDate"]) && isset($_POST["email"])
-    && isset($_POST["citizenship"]) && isset($_POST["postalCode"]) && isset($_POST["position"])
+    && isset($_POST["citizenship"]) && isset($_POST["postalCode"]) && isset($_POST["position"]) && isset($_POST['facultyID'])
 ){
-    $stmt = $conn->prepare("INSERT INTO your_table_name (medID, medExpDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode, position) VALUES (:medID, :medExpDate, :phoneNumber, :city, :province, :firstName, :lastName, :birthDate, :email, :citizenship, :postalCode, :position)");
+    //Sql statement to insert into People first
+ 
+ $stmtPeople = $conn->prepare("INSERT INTO People (medicareID, medicareExpiryDate, phoneNumber, city, province, firstName, lastName, birthDate, email, citizenship, postalCode) VALUES (:medicareID, :medicareExpiryDate, :phoneNumber, :city, :province, :firstName, :lastName, :birthDate, :email, :citizenship, :postalCode)");
 
-    $stmt->bindParam(':medID', $_POST["medID"]);
-    $stmt->bindParam(':medExpDate', $_POST["medExpDate"]);
-    $stmt->bindParam(':phoneNumber', $_POST["phoneNumber"]);
-    $stmt->bindParam(':city', $_POST["city"]);
-    $stmt->bindParam(':province', $_POST["province"]);
-    $stmt->bindParam(':firstName', $_POST["firstName"]);
-    $stmt->bindParam(':lastName', $_POST["lastName"]);
-    $stmt->bindParam(':birthDate', $_POST["birthDate"]);
-    $stmt->bindParam(':email', $_POST["email"]);
-    $stmt->bindParam(':citizenship', $_POST["citizenship"]);
-    $stmt->bindParam(':postalCode', $_POST["postalCode"]);
-    $stmt->bindParam(':position', $_POST["position"]);
+ $stmtPeople->bindParam(':medicareID', $_POST["medicareID"]);
+ $stmtPeople->bindParam(':medicareExpiryDate', $_POST["medicareExpiryDate"]);
+ $stmtPeople->bindParam(':phoneNumber', $_POST["phoneNumber"]);
+ $stmtPeople->bindParam(':city', $_POST["city"]);
+ $stmtPeople->bindParam(':province', $_POST["province"]);
+ $stmtPeople->bindParam(':firstName', $_POST["firstName"]);
+ $stmtPeople->bindParam(':lastName', $_POST["lastName"]);
+ $stmtPeople->bindParam(':birthDate', $_POST["birthDate"]);
+ $stmtPeople->bindParam(':email', $_POST["email"]);
+ $stmtPeople->bindParam(':citizenship', $_POST["citizenship"]);
+ $stmtPeople->bindParam(':postalCode', $_POST["postalCode"]);
 
-    if ($stmt->execute()) {
+ $peopleInserted = $stmtPeople->execute();
+
+ //Insert in the Employee Table after
+ if ($peopleInserted) {
+    $stmtEmployee = $conn->prepare("INSERT INTO Employees (medicareID,position,facultyID) VALUES (:medicareID, :position, :facultyID)");
+
+    $stmtEmployee->bindParam(':position', $_POST["position"]);
+    $stmtEmployee->bindParam(':medicareID', $_POST["medicareID"]);
+    $stmtEmployee->bindParam(':facultyID', $_POST["facultyID"]);
+   
+
+    if ($stmtEmployee->execute()) {
         header("Location: .");
     }
-}
 
+
+   
+}
+}
 
 ?>
 <!DOCTYPE html>
@@ -34,10 +51,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>createStudent</title>
+    
+    <title>createEmployee</title>
 </head>
 
 
@@ -49,10 +64,11 @@
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
     <h1>Create an Employee</h1>
     <form action="./createEmp.php" method="post">
-        <label for="medID">medicareID</label><br>
-        <input type='text' name="medID" id="medID"> <br>
+        <label for="medicareID">medicareID</label><br>
+        <input type='text' name="medicareID" id="medicareID"> <br>
         <label for="medExpDate">Medicare Expiry Date</label><br>
         <input type='date' name="medExpDate" id="medExpDate"> <br>
         <label for="phoneNumber">Phone</label><br>

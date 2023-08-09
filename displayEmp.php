@@ -1,5 +1,5 @@
 <?php 
-require_once '../database.php';
+require_once 'database.php';
 
 $statement = $conn->prepare('SELECT E.medicareID, E.position, P.medicareExpiryDate, P.phoneNumber, P.address, P.city, P.province, P.firstName, P.lastName, P.dateOfBirth, P.emailAddress, P.citizenship, P.postalCode 
                             FROM Employees AS E
@@ -11,14 +11,12 @@ $statement->execute();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>All Employees</title>
 </head>
 
 <body>
-    <h1>All Employees and People</h1>
+    <h1>All Employees</h1>
 
     <table>
         <thead>
@@ -36,7 +34,8 @@ $statement->execute();
                 <td>Email Address</td>
                 <td>Citizenship</td>
                 <td>Postal Code</td>
-                <td>Edit</td> <!-- Add this column for the Edit link -->
+                <td>Edit</td>
+                <td>Delete</td> 
             </tr>
         </thead>
         <tbody>
@@ -56,12 +55,13 @@ $statement->execute();
                     <td><?= $row["citizenship"] ?></td>
                     <td><?= $row["postalCode"] ?></td>
                     <td><a href="./editEmp.php?medicareID=<?= $row["medicareID"] ?>">Edit</a></td>
+                    <td><a href="./deleteEmp.php?medicareID=<?= $row["medicareID"] ?>">Delete</a></td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 
-    <a href="../">Back to homepage</a>
+    <a href="Employee.php">Back to homepage</a>
 </body>
 
 </html>

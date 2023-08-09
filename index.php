@@ -8,6 +8,8 @@ echo'<!DOCTYPE html>
     <th><a href="Infection.php"><button >Infection</button></a></th>
     <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
     <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
+    
 <h1>Education Personnel Status</h1>
 <h2>Navigate to the corresponding page using the buttons above</h2>
 </html>';

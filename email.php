@@ -1,9 +1,8 @@
 <?php
-
+//Function to send a Mail to someone using the mail function in php
 function sendMail($to, $subject, $message) {
     $headers = "From: sender@example.com" . "\r\n";
     $headers .= "Reply-To: sender@example.com" . "\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion();
 
     $mailSent = mail($to, $subject, $message, $headers);
 
@@ -14,8 +13,9 @@ function sendMail($to, $subject, $message) {
     }
 }
 
-require_once '../database.php';
+require_once 'database.php';
 
+//This function cancels the schedule for an infected teacher
 function cancelAssignmentsForInfectedTeacher($teacherMedicareID, $infectionDate) {
     global $connection;
 
@@ -33,7 +33,7 @@ function cancelAssignmentsForInfectedTeacher($teacherMedicareID, $infectionDate)
         return false;
     }
 }
-
+//This function sends an email to all the teacher that one of their colleagues has been infected
 function sendInfectedTeacherEmail($teacherMedicareID, $infectionDate) {
     global $connection;
 
@@ -45,7 +45,7 @@ function sendInfectedTeacherEmail($teacherMedicareID, $infectionDate) {
     $teacherResult = $connection->query($teacherQuery);
     $teacherData = $teacherResult->fetch_assoc();
 
-    $principalEmail = "InfectionAlert@example.com"; // Replace with the principal's email address
+    $principalEmail = "InfectionAlert@example.com"; 
     $subject = "Warning";
     $message = "{$teacherData['firstName']} {$teacherData['lastName']} who teaches in your school has been infected with COVID-19 on $infectionDate.";
 
@@ -63,7 +63,7 @@ function sendInfectedTeacherEmail($teacherMedicareID, $infectionDate) {
         return false;
     }
 }
-
+//This function sends a WeeklySchedule Email to all the teachers
 function sendWeeklyScheduleEmails() {
     global $connection;
 
@@ -79,6 +79,7 @@ function sendWeeklyScheduleEmails() {
 
     $scheduleResult = $connection->query($scheduleQuery);
 
+    
     while ($row = $scheduleResult->fetch_assoc()) {
         $employeeName = $row['firstName'] . ' ' . $row['lastName'];
         $facilityName = $row['facilityName'];
@@ -110,8 +111,7 @@ function sendWeeklyScheduleEmails() {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["sendInfectedEmail"])) {
-        $infectedTeacherMedicareID = 12345;
-        $infectionDate = '2023-01-24';
+       
 
         if (sendInfectedTeacherEmail($infectedTeacherMedicareID, $infectionDate)) {
             echo "Infected teacher email sent to principal successfully.";
@@ -133,7 +133,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Email Actions</title>
 </head>
+
 <body>
+<th><a href="index.php"><button >Index</button></a></th>
+<th><a href="Student.php"> <button >Student</button></a></th>
+    <th><a href="Employee.php"> <button >Employee</button></a></th>
+    <th><a href="Facility.php"><button >Facility</button></a></th>
+    <th><a href="Infection.php"><button >Infection</button></a></th>
+    <th><a href="Vaccination.php"><button >Vaccination</button></a></th>
+    <th><a href="Registration.php"><button >Registration</button></a></th>
+    <th><a href="email.php"><button >Email</button></a></th>
     <h1>Email Actions</h1>
     <form action="" method="post">
         <input type="submit" name="sendInfectedEmail" value="Send Infected Teacher Email">
@@ -142,5 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="" method="post">
         <input type="submit" name="sendWeeklyScheduleEmails" value="Send Weekly Schedule Emails">
     </form>
+    <br>
+    <a href="emailLog.php"><button>Show Email Log</button></a>
 </body>
 </html>
